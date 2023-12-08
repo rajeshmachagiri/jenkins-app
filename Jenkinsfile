@@ -40,9 +40,26 @@ pipeline {
       steps {
         container('maven') {
           sh 'mvn -version'
+          sh 'ls -a'
         }
         container('busybox') {
           sh '/bin/busybox'
+          sh 'ls -la'
+
+        }
+      }
+    }
+   stage('Docker-test') {
+      steps {
+        container('docker') {
+          sh 'docker ps -a'
+        }
+      }
+  }
+  stage('kubectl') {
+      steps {
+        container('jnlp') {
+          sh 'kubectl get pods'
         }
       }
     }
