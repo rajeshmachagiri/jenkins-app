@@ -1,7 +1,8 @@
+
 FROM openjdk:8-alpine
 
-EXPOSE 8083
 WORKDIR /usr/src/app
+EXPOSE 8083
 
 
 COPY pom.xml mvnw ./

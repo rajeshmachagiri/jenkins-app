@@ -4,9 +4,6 @@ pipeline {
       yaml '''
         apiVersion: v1
         kind: Pod
-        metadata:
-          labels:
-            some-label: some-label-value
         spec:
           containers:
           - name: maven
@@ -14,51 +11,56 @@ pipeline {
             command:
             - cat
             tty: true
-          - name: busybox
-            image: busybox
-            command:
-            - cat
-            tty: true
           - name: docker
-            image: docker:latest
-            command:
-            - cat
-            tty: true
-            volumeMounts:
-             - mountPath: /var/run/docker.sock
-               name: docker-sock
-          volumes:
-          - name: docker-sock
-            hostPath:
-              path: /var/run/docker.sock   
+            image: docker:19.03.1-dind
+            securityContext:
+              privileged: true
+            env:
+              - name: DOCKER_TLS_CERTDIR
+                value: ""
         '''
-      retries 2
     }
   }
   stages {
-    stage('Run maven') {
-      steps {
-        container('maven') {
-          sh 'mvn -version'
+    stage('Build-Jar-file') {
+      parallel {
+        stage('docker build') {
+          steps {
+            container('docker') {
+              dir('users-api'){
+                sh 'docker ps'
+                sh 'docker login -u=rajeshmachagiri -p=8686548640rrR!'
+                sh 'docker build -t users-api .'
+                sh 'docker tag users-api rajeshmachagiri/users-api:latest'
+                sh 'docker push rajeshmachagiri/users-api:latest'
+              }
+            }
+          }
         }
-        container('busybox') {
-          sh '/bin/busybox'
+        stage('docker-build2') {
+          steps {
+            container('docker') {
+              dir('todos-api'){
+                sh 'docker ps'
+                sh 'docker login -u=rajeshmachagiri -p=8686548640rrR!'
+                sh 'docker build -t auth-api .'
+                sh 'docker tag auth-api rajeshmachagiri/auth-api:latest'
+                sh 'docker push rajeshmachagiri/auth-api:latest'
+              }
+            }
+          }
         }
+
       }
     }
-   stage('List pods') {
-     steps {
-          sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
-          sh 'chmod u+x ./kubectl'  
-          sh './kubectl get pods'
-     }
-   }
-   stage('docker') {
-     steps {
-        sh 'ls -la'
-        sh 'cd users-api'
-        sh 'docker build .'
-     }
-   }
+    stage('kubectl'){
+      steps {
+       sh "curl -LO https://dl.k8s.io/release/v1.28.4/bin/linux/amd64/kubectl"
+       sh "chmod +x kubectl"
+       sh "./kubectl get pods"
+       sh "./kubectl apply -f ./k8s/users-api"
+       sh "./kubectl apply -f ./k8s/todos-api"
+      }
+    }
   }
 }
