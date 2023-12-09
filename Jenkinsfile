@@ -62,6 +62,7 @@ pipeline {
         sh 'chmod u+x ./kubectl'  
         sh './kubectl get pods'
     }
+    }
   stage('kubectl') {
       steps {
         container('jnlp') {
@@ -70,4 +71,5 @@ pipeline {
       }
     }
   }
+
 }
