@@ -53,5 +53,12 @@ pipeline {
           sh './kubectl get pods'
      }
    }
+   stage('docker') {
+     steps {
+        sh 'ls -la'
+        sh 'cd users-api'
+        sh 'docker build .'
+     }
+   }
   }
 }
