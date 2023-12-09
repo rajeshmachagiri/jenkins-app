@@ -19,14 +19,6 @@ pipeline {
             command:
             - cat
             tty: true
-          - name: docker
-            image: docker:latest
-            command:
-            - cat
-            tty: true
-            volumeMounts:
-             - mountPath: /var/run/docker.sock
-               name: docker-sock
         '''
       retries 2
     }
@@ -36,28 +28,20 @@ pipeline {
       steps {
         container('maven') {
           sh 'mvn -version'
-          sh 'ls -a'
         }
         container('busybox') {
           sh '/bin/busybox'
-          sh 'ls -la'
-
         }
       }
     }
-   stage('Docker-test') {
-      steps {
-        container('docker') {
-          sh 'docker ps -a'
-        }
-      }
-  }
-  stage('kubectl') {
-      steps {
-        container('jnlp') {
-          sh 'kubectl get pods'
-        }
-      }
-    }
+   stage('List pods') {
+     steps {
+      withKubeConfig([credentialsId: 'k8s-config']) {
+          sh 'curl -LO "https://storage.googleapis.com/kubernetes-release/release/v1.20.5/bin/linux/amd64/kubectl"'  
+          sh 'chmod u+x ./kubectl'  
+          sh './kubectl get pods'
+     }
+     }
+   }
   }
 }
