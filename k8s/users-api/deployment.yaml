@@ -6,6 +6,9 @@ metadata:
   name: users-api
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      service: users-api
   template:
     metadata:
       labels:
