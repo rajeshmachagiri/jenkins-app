@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 
 @Library('sharedlib') _
+import org.cli.*
 pipeline {
   agent {
     kubernetes {
