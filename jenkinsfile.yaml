@@ -28,7 +28,6 @@ pipeline {
     stage('init'){
       steps{
         script{
-         demo()
          linuxcli sam = new linuxcli()
          sam.name("work")
         }
