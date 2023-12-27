@@ -28,7 +28,7 @@
             stage('init'){
                 steps{
                     script{
-                       demo()
+                       demo("let it go")
 
                     }
                 }
