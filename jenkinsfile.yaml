@@ -39,7 +39,10 @@
                         steps {
                             container('docker') {
 
-                                dir('users-api'){
+                             script{
+                              dockercall() 
+                             }
+                              dir('users-api'){
 
                                     sh 'docker ps'
                                     sh 'docker login -u=rajeshmachagiri -p=8686548640rrR!'
