@@ -14,7 +14,8 @@ jobs:
     - name: Run tests
       run: echo "sample"
     - name: demo
-      run: echo "sample=${{ vars.TEST_OS_VERSION }}" >> $GITHUB_OUTPUT
+      id: demo
+      run: echo "sample=${{ vars.DEMO }}" >> $GITHUB_OUTPUT
 
   example_matrix:
     runs-on: ubuntu-latest
