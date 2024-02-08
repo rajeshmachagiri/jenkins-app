@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: ${{ fromJSON(vars.TEST_OS_VERSIONS) }}
+        version: ${{ fromJSON(vars.TEST_OS_VERSION) }}
     steps:
     - name: devil
       run: echo "sample"
