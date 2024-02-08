@@ -19,7 +19,6 @@ jobs:
     strategy:
       matrix:
         version: [10, 12, 14]
-        os: [ubuntu-latest, windows-latest]
     steps:
     - name: devil
       run: echo "sample"
