@@ -20,7 +20,7 @@ jobs:
     environment: demo
     strategy:
       matrix:
-        version: ${{ vars.TEST_OS_VERSION }}
+        version: "${{ vars.TEST_OS_VERSION }}"
     steps:
     - name: devil
       run: echo "sample"
