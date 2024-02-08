@@ -15,6 +15,7 @@ jobs:
       run: echo ${{ vars.TEST_OS_VERSION }}
 
   example_matrix:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         version: [10, 12, 14]
