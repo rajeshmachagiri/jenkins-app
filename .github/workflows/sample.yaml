@@ -18,7 +18,7 @@ jobs:
       run: echo "sample=${{ vars.DEMO }}" >> $GITHUB_OUTPUT
 
   example_matrix:
-    runs-on: ${{ version }}
+    runs-on: ubuntu-latest
     needs: build
     environment: demo
     strategy:
