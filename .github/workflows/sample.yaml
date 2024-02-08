@@ -23,7 +23,7 @@ jobs:
     environment: demo
     strategy:
       matrix:
-        version: "${{ vars.DEMO }}"
+        version: ${{fromJson(needs.job1.outputs.matrix)}}
     steps:
     - name: devil
       run: echo "sample"
