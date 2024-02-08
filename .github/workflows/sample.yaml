@@ -14,14 +14,14 @@ jobs:
     - name: demo
       run: echo ${{ vars.TEST_OS_VERSION }}
 
-  # build2:
-  #   runs-on: ubuntu-latest
-  #   environment: demo
-  #   strategy:
-  #     matrix:
-  #       python-version: ${{ vars.TEST_OS_VERSION }}
-  #   steps:
-  #   - name: Run tests
-  #     run: echo "sample"
-  #   - name: demo
-  #     run: echo 
+  build2:
+    runs-on: ubuntu-latest
+    environment: demo
+    strategy:
+      matrix:
+        os: ${{ fromJSON(vars.TEST_OS_VERSIONS) }}
+    steps:
+    - name: Run tests
+      run: echo "sample"
+    - name: demo
+      run: echo 
