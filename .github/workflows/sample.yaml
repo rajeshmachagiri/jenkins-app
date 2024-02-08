@@ -8,11 +8,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: demo
+    outputs:
+      matrix: ${{ steps.demo.outputs.sample }}
     steps:
     - name: Run tests
       run: echo "sample"
     - name: demo
-      run: echo ${{ vars.TEST_OS_VERSION }}
+      run: echo "sample=${{ vars.TEST_OS_VERSION }}" >> $GITHUB_OUTPUT
 
   example_matrix:
     runs-on: ubuntu-latest
@@ -20,7 +22,7 @@ jobs:
     environment: demo
     strategy:
       matrix:
-        version: "${{ vars.TEST_OS_VERSION }}"
+        version: ${{fromJson(needs.build.outputs.matrix)}}
     steps:
     - name: devil
       run: echo "sample"
