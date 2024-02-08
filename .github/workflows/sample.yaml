@@ -12,7 +12,7 @@ jobs:
       matrix: ${{ steps.demo.outputs.sample }}
     steps:
     - name: Run tests
-      run: echo "sample"
+      run: echo "${{ vars.DEMO }}"
     - name: demo
       id: demo
       run: echo "sample=${{ vars.DEMO }}" >> $GITHUB_OUTPUT
