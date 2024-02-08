@@ -1,0 +1,5 @@
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: ${{ vars.TEST_OS_VERSIONS }}
