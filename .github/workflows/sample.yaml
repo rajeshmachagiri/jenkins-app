@@ -17,6 +17,7 @@ jobs:
   example_matrix:
     runs-on: ubuntu-latest
     needs: build
+    environment: demo
     strategy:
       matrix:
         version: ${{ fromJSON(vars.TEST_OS_VERSION) }}
