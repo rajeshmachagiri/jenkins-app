@@ -14,13 +14,11 @@ jobs:
     - name: demo
       run: echo ${{ vars.TEST_OS_VERSION }}
 
-  build2:
-    runs-on: ubuntu-latest
-    needs: build
-    environment: demo
+  example_matrix:
     strategy:
       matrix:
-        os: ${{ fromJSON(vars.TEST_OS_VERSIONS) }}
-    steps:
-    - name: Run tests
-      run: echo "sample"
+        version: [10, 12, 14]
+        os: [ubuntu-latest, windows-latest]
+      steps:
+      - name: devil
+        run: echo "sample"
