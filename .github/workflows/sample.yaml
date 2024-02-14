@@ -26,7 +26,9 @@ jobs:
         version: ${{fromJSON(needs.build.outputs.matrix)}}
     steps:
     - name: devil
-      run: echo "sample"
+      run: echo "sample=SAMPLE_CONFIG" >> $GITHUB_ENV
+    - name: devil2
+      run: echo "${{ vars.join(env.sample) }}"
 
 
-
+ 
